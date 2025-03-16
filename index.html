@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prova de Recuperação - Informática</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background: linear-gradient(to right, #001f3f, #FF851B);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            text-align: left;
+            width: 60%;
+        }
+        label {
+            font-weight: bold;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #FF851B;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: yellow;
+        }
+        #tips {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #FFDC00;
+            animation: blink 3s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        alert("Olá, eu sou o professor João Zacarias, esta prova de recuperação tem a duração de 45 minutos, procure fazer ela no menor tempo possível. Estás a ser filmado para garantir que não estás a fazer cábulas.");
+    </script>
+    
+    <div class="container">
+        <h2>PROVA DE RECUPERAÇÃO - PROF JOÃO ZACARIAS</h2>
+        <p id="timer">Tempo restante: 45:00</p>
+        <form id="quizForm">
+            <div class="question">
+                <label>Nome Completo:</label>
+                <input type="text" name="nome" required>
+            </div>
+            <div class="question">
+                <label>Contacto:</label>
+                <input type="text" name="contacto" required>
+            </div>
+            <div class="question">
+                <label>Classe:</label>
+                <input type="text" name="classe" required>
+            </div>
+            <div class="question">
+                <label>Curso:</label>
+                <input type="text" name="curso" required>
+            </div>
+            
+            <h3>Perguntas Verdadeiro ou Falso</h3>
+            <div class="question">
+                <label>1. Em programação, uma variável é um valor fixo que nunca pode ser alterado durante a execução do programa. (V/F)</label>
+                <input type="text" name="q1" required>
+            </div>
+            <div class="question">
+                <label>2. A informática é uma ciência que estuda apenas o hardware dos computadores. (V/F)</label>
+                <input type="text" name="q2" required>
+            </div>
+            
+            <h3>Respostas Directas</h3>
+            <div class="question">
+                <label>3. Que tipo de memória é responsável pelo armazenamento temporário dos dados enquanto o computador está ligado?</label>
+                <input type="text" name="q3" required>
+            </div>
+            <div class="question">
+                <label>4. Qual é a principal função do sistema operativo?</label>
+                <input type="text" name="q4" required>
+            </div>
+            <div class="question">
+                <label>5. Qual é o nome da linguagem de programação mais usada para criar páginas web dinâmicas?</label>
+                <input type="text" name="q5" required>
+            </div>
+            <div class="question">
+                <label>6. O que é um algoritmo em programação?</label>
+                <input type="text" name="q6" required>
+            </div>
+            <div class="question">
+                <label>7. Qual é a principal diferença entre redes sociais e fóruns de discussão?</label>
+                <input type="text" name="q7" required>
+            </div>
+            <div class="question">
+                <label>8. Qual o objectivo principal da computação em nuvem?</label>
+                <input type="text" name="q8" required>
+            </div>
+            
+            <h3>Argumentação</h3>
+            <div class="question">
+                <label>9. A evolução tecnológica e a automação criam novas oportunidades de emprego ou eliminam mais postos de trabalho do que criam? Justifica a tua resposta.</label>
+                <textarea name="q9" required></textarea>
+            </div>
+            <div class="question">
+                <label>10. O armazenamento na nuvem é mais seguro do que o armazenamento local? Apresenta argumentos a favor e contra.</label>
+                <textarea name="q10" required></textarea>
+            </div>
+            
+            <button type="button" onclick="enviarRespostas()">Submeter</button>
+        </form>
+        
+        <p id="tips">Não cabule, estou a te ver</p>
+    </div>
+    
+    <script>
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            let interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = "Tempo restante: " + minutes + ":" + seconds;
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    alert("Tempo esgotado! A prova será submetida automaticamente.");
+                    enviarRespostas();
+                }
+            }, 1000);
+        }
+        window.onload = function () {
+            let timeLimit = 45 * 60;
+            let display = document.getElementById('timer');
+            startTimer(timeLimit, display);
+        };
+        function enviarRespostas() {
+            let form = document.getElementById("quizForm");
+            let formData = new FormData(form);
+            let respostas = "";
+            for (let pair of formData.entries()) {
+                respostas += `${pair[0]}: ${pair[1]}\n`;
+            }
+            let mailtoLink = `mailto:jozacarias23@gmail.com?subject=Prova de Informática&body=${encodeURIComponent(respostas)}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
